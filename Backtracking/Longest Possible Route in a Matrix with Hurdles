@@ -1,0 +1,37 @@
+Given an M x N matrix, with a few hurdles arbitrarily placed, calculate the length of the longest possible route possible from source to a destination within the matrix. We are allowed to move to only adjacent cells which are not hurdles. The route cannot contain any diagonal moves and a location once visited in a particular path cannot be visited again.
+
+
+#include <bits/stdc++.h> 
+void helper(vector<vector<int>> &mat, int sx, int sy, int ex, int ey,int curr,int &len)
+{
+    if(sx==sy && sy==ey)
+    {
+        if(curr > len)
+        {
+            len=curr;
+            return;
+        }
+    }
+    vector<pair<int,int>> dir{{0,1},{0,-1},{1,0},{-1,0}};
+    mat[sx][sy]=2;
+    for(auto it: dir)
+    {
+        int nx=sx+it.first;
+        int ny=sy+it.second;
+        if(nx>=0 && ny>=0 && nx<mat.size() && ny<mat[0].size() && mat[nx][ny]==1)
+        {
+            helper(mat,nx,ny,ex,ey,curr+1,len);
+        }
+    }
+    mat[sx][sy]=1;
+}
+
+int longestPath(int n, int m, vector<vector<int>> &mat, int sx, int sy, int ex, int ey) {
+	// Write your code here
+    if(mat[sx][sy]==0 || mat[ex][ey]==0)
+        return -1;
+    int len=-1;
+    helper(mat,sx,sy,ex,ey,0,len);
+    return len;
+}
+
