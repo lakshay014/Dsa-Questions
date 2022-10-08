@@ -1,0 +1,74 @@
+question : An expression will be given which can contain open and close parentheses and optionally some characters,
+No other operator will be there in string. We need to remove minimum number of parentheses to make the input string valid.
+If more than one valid output are possible removing same number of parentheses then print all such output. 
+
+
+example : 
+Input  : str = “()())()” -
+Output : ()()() (())()
+There are two possible solutions
+"()()()" and "(())()
+
+
+
+class Solution {
+public:
+
+void solve(string s,vector<string> &ans,unordered_map<string,bool> &mp,int minremoval)
+{
+    if(mp[s]==true)
+    return;
+
+    mp[s]=true;
+
+    if(minremoval==0)
+    {
+        int val=removal(s);
+        if(val==0)
+        {
+            ans.push_back(s);
+        }
+        return;
+    }
+
+    for(int i=0;i<s.size();i++)
+    {
+        string left=s.substr(0,i);
+        string right=s.substr(i+1);
+        string join=left+right;
+        solve(join,ans,mp,minremoval-1);
+    }
+    return;
+}
+    int removal(string s)
+    {
+        stack<char> st;
+
+        for(int i=0;i<s.size();i++)
+        {
+            if(s[i]=='(')
+            {
+                st.push(s[i]);
+            }
+
+            else if(s[i]==')')
+            {
+                if(st.size()!=0 && st.top()=='(')
+                st.pop();
+
+                else
+                st.push(s[i]);
+            }
+        }
+        return st.size();
+    }
+    vector<string> removeInvalidParentheses(string s)
+     {
+         vector<string> ans;
+         unordered_map<string,bool> mp;
+         int minremoval=removal(s);
+         solve(s,ans,mp,minremoval);
+         return ans;
+        
+    }
+};
