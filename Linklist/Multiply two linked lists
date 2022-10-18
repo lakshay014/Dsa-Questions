@@ -1,0 +1,42 @@
+Given elements as nodes of the two linked lists. The task is to multiply these two linked lists, say L1 and L2. 
+
+Example:
+Input:
+2
+2
+3 2
+1
+2
+3
+1 0 0
+2
+1 0 
+
+Output:
+64
+1000
+
+
+
+
+
+long long  multiplyTwoLists (Node* l1, Node* l2)
+{
+  long long n1,n2=0;
+  
+  while(l1 || l2)
+  {
+      if(l1)
+      {
+          n1=n1*10+l1->data;
+          l1=l1->next;
+      }
+      
+      if(l2)
+      {
+          n1=n1*10+l2->data;
+          l2=l2->next;
+      }
+  }
+  return n1*n2;
+}
